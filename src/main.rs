@@ -8,7 +8,7 @@ use time::PreciseTime;
 pub mod biggest_difference;
 pub mod sorting;
 
-pub const DATA_SIZE: usize = /*200*1024*/ 50;
+pub const DATA_SIZE: usize = 1000*1024;
 
 pub fn random_data_set(min: i32, max: i32, size: usize) -> Vec<i32> {
 	let mut data = Vec::with_capacity(size);
@@ -56,12 +56,25 @@ fn test_bubble_sort(mut data: Vec<i32>) {
 
 fn test_insertion_sort(mut data: Vec<i32>) {
 	println!("Teste Insertion-Sort");
+	print_data_inf(&data);
 
 	let start_time = PreciseTime::now();
 	sorting::insertion_sort(&mut data);
 	let end_time = PreciseTime::now();
 
 	println!("Daten sortiert durch Insertion-Sort. [Laufzeit: {}]", start_time.to(end_time));
+	print_data_inf(&data);
+}
+
+fn test_quick_sort(mut data: Vec<i32>) {
+	println!("Teste Quick-Sort");
+	print_data_inf(&data);
+
+	let start_time = PreciseTime::now();
+	sorting::quick_sort(&mut data);
+	let end_time = PreciseTime::now();
+
+	println!("Daten sortiert durch Quick-Sort. [Laufzeit: {}]", start_time.to(end_time));
 	print_data_inf(&data);
 }
 
@@ -75,5 +88,8 @@ fn main() {
 	println!("");
 
 	test_insertion_sort(random_data_set(0, 1000, DATA_SIZE));
+	println!("");
+
+	test_quick_sort(random_data_set(0, 1000, DATA_SIZE));
 	println!("");
 }

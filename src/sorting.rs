@@ -1,4 +1,5 @@
 //! Verschiedenste Sortier-Algorithmen.
+use std::fmt::Display;
 
 /// Es erscheint passend, mit diesem Algorithmus anzufangen. Einfacher Bubble-Sort,
 /// in all seinem Glanz.
@@ -32,5 +33,39 @@ pub fn insertion_sort<T: PartialOrd>(data: &mut [T]) {
 		}
 
 		l_sorted += 1;
+	}
+}
+
+pub fn quick_sort<T: PartialOrd + Copy>(data: &mut [T]) {
+	let data_len = data.len();
+	if data_len <= 1 { return; }
+
+	quick_sort_sub(data, 0, data_len as i64 - 1);
+}
+
+fn quick_sort_sub<T: PartialOrd + Copy>(data: &mut [T], l: i64, r: i64) {
+	if l < r {
+		let p = partition(data, l, r);
+		quick_sort_sub(data, l, p);
+		quick_sort_sub(data, p+1, r);
+	}
+}
+
+fn partition<T: PartialOrd + Copy>(data: &mut [T], l: i64, r: i64) -> i64 {
+	let comp = data[l as usize];
+
+	let mut i = l-1;
+	let mut j = r+1;
+
+	loop {
+		i += 1;
+		j -= 1;
+
+		while data[i as usize] < comp { i += 1; }
+		while data[j as usize] > comp { j -= 1; }
+
+		if i >= j { return j; }
+
+		data.swap(i as usize, j as usize);
 	}
 }
